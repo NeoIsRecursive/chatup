@@ -1,3 +1,4 @@
+@include('components.helpers.errors')
 <form action="register" method="post">
     @csrf
     name
