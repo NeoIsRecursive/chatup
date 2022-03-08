@@ -27,7 +27,7 @@ class ChatChannel
     public function join(User $user, Friendship $friendship)
     {
         //
-        if (Auth::id() == $friendship->first_user || Auth::id() == $friendship->second_user) {
+        if ($user->id == $friendship->first_user || $user->id == $friendship->second_user) {
             return true;
         }
         return false;
