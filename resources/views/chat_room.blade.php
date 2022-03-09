@@ -1,5 +1,4 @@
-<head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-</head>
 @vite
 <h2>chatroom</h2>
+@include('components.message.list')
+@include('components.message.new')

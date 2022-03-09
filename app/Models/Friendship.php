@@ -15,4 +15,9 @@ class Friendship extends Model
         'asking_user',
         'accepted',
     ];
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

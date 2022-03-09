@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Friendship;
+use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,16 +16,16 @@ class TestMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $friendship;
+    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Friendship $friendship)
+    public function __construct(Message $message)
     {
-        $this->$friendship = $friendship;
+        $this->message = $message;
     }
 
     /**
@@ -34,6 +35,6 @@ class TestMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('test.' . $this->friendship->id);
+        return new PrivateChannel('test.' . $this->message->friendship_id);
     }
 }

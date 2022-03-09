@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Friendship\AddFriendController;
+use App\Http\Controllers\Messages\NewMessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', DashboardController::class);
     Route::post('add_friend', AddFriendController::class);
     Route::get('chat/{friendship}', ChatController::class);
+    Route::post('chat/{friendship}', NewMessageController::class);
 });
 Route::group(['middleware' => ['guest']], function () {
     Route::view('login', 'auth.login')->name('login');

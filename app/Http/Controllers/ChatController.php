@@ -16,7 +16,9 @@ class ChatController extends Controller
     public function __invoke(Friendship $friendship, Request $request)
     {
         //
-        // dd($friendship);
-        return view('chat_room');
+
+        $messages = $friendship->messages;
+
+        return view('chat_room')->with('messages', $messages);
     }
 }
