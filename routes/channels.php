@@ -1,6 +1,7 @@
 <?php
 
 use App\Broadcasting\ChatChannel;
+use App\Models\Friendship;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -18,4 +19,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('chat.{friendship}', ChatChannel::class);
+Broadcast::channel('test.{friendshipId}', function ($user, $friendshipId) {
+    $friendship = Friendship::find($friendshipId);
+
+    return $user->id === $friendship->first_user  || $user->id === $friendship->second_user;
+});
