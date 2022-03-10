@@ -17,6 +17,7 @@ window.echo = new Echo({
 window.echo
     .private("test." + window.location.pathname.match(/([0-9])/)[0])
     .listen("TestMessage", (e) => {
+        console.log(e);
         newMessage(e);
     });
 

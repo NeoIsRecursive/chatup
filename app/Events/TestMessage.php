@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Models\Friendship;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -38,5 +39,14 @@ class TestMessage implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('test.' . $this->message->friendship_id);
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'content' => $this->message->content,
+            'user_id' => User::find($this->message->user_id)->name,
+            'friendship_id' => $this->message->friendship_id,
+        ];
     }
 }

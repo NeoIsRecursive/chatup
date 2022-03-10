@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Friendship;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,9 +18,15 @@ class ChatController extends Controller
     public function __invoke(Friendship $friendship, Request $request)
     {
         if (Auth::id() !== $friendship->first_user  && Auth::id() !== $friendship->second_user)
-            return abort(404, "not your channel");
+            return back()->withErrors("not your channel");
+
+        $otheruser = User::find(Auth::id() !== $friendship->first_user ? $friendship->first_user : $friendship->secpnd_user);
 
         $messages = $friendship->messages;
+        $messages->map(function ($x) use ($otheruser) {
+            $x->user_name = Auth::id() == $x['user_id'] ? Auth::user()->name : $otheruser->name;
+            return $x;
+        });
 
         return view('chat_room')->with('messages', $messages);
     }
