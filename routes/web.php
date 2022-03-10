@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('chat/{friendship}', ChatController::class);
     Route::post('chat/{friendship}', NewMessageController::class);
 });
+
 Route::group(['middleware' => ['guest']], function () {
     Route::view('login', 'auth.login')->name('login');
     Route::post('login', LoginController::class);

@@ -25,7 +25,7 @@ class AddFriendController extends Controller
 
         $second_user = User::where('name', $validated['friend'])->first();
         if ($second_user === null || Auth::id() === $second_user->id) {
-            return back();
+            return back()->withErrors('That user doesnt exist exist');
         }
 
         Friendship::create([
@@ -33,5 +33,7 @@ class AddFriendController extends Controller
             'second_user' => $second_user->id,
             'asking_user' => Auth::id(),
         ]);
+
+        return back();
     }
 }

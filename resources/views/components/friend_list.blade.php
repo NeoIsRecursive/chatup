@@ -1,8 +1,11 @@
 <div>
     <h2>your friends</h2>
-    @foreach($friends as $friend)
+    <ul>
+        @foreach($friends as $friend)
 
-    <a href="chat/{{$friend['id']}}">{{ $friend['name']}}</a>
+        <a href="chat/{{$friend['id']}}"><li>{{ $friend['name']}}</li></a>
 
-    @endforeach
+        @endforeach
+    </ul>
+    @include('components.add_friend')
 </div>

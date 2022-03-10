@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Friendship;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -15,7 +16,8 @@ class ChatController extends Controller
      */
     public function __invoke(Friendship $friendship, Request $request)
     {
-        //
+        if (Auth::id() !== $friendship->first_user  && Auth::id() !== $friendship->second_user)
+            return abort(404, "not your channel");
 
         $messages = $friendship->messages;
 
