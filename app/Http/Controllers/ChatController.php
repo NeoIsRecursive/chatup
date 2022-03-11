@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Friendship;
 use App\Models\User;
+use Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,8 +25,10 @@ class ChatController extends Controller
         $otheruser = User::find(Auth::id() !== $friendship->first_user ? $friendship->first_user : $friendship->secpnd_user);
 
         $messages = $friendship->messages;
-        $messages->map(function ($x) use ($otheruser) {
-            $x->user_name = Auth::id() == $x['user_id'] ? Auth::user()->name : $otheruser->name;
+
+        $messages->getCollection()->reverse()->map(function ($x) use ($otheruser) {
+            $x->user_name = Auth::id() == $x->user_id ? Auth::user()->name : $otheruser->name;
+            $x->content = Crypt::decryptString($x->content);
             return $x;
         });
 

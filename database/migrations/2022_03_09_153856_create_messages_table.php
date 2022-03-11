@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->integer('friendship_id');
-            $table->string('content');
+            $table->text('content');
             $table->string('user_id');
             $table->timestamps();
         });
