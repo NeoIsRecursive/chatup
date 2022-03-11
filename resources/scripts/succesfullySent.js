@@ -1,4 +1,7 @@
 export default (res) => {
-    console.log(res[0]);
+    if (res.errors) {
+        console.log(res.message);
+        return;
+    }
     document.querySelector("form input").value = "";
 };

@@ -17,7 +17,6 @@ window.echo = new Echo({
 window.echo
     .private("test." + window.location.pathname.match(/([0-9])/)[0])
     .listen("TestMessage", (e) => {
-        console.log(e);
         newMessage(e);
     });
 
@@ -27,6 +26,7 @@ document.querySelector("form button").addEventListener("click", (e) => {
     fetch(window.location.pathname, {
         headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
             "X-CSRF-Token": document.querySelector("input[name=_token]").value,
         },
         method: "post",
