@@ -70,7 +70,8 @@ class User extends Authenticatable
             'friendships.id as friendship_id',
             'first.name as first_name',
             'second.name as second_name',
-            'accepted'
+            'accepted',
+            'asking_user'
         ];
 
         $friendships = Friendship::select($values)
@@ -87,6 +88,7 @@ class User extends Authenticatable
                 "id" => $x['friendship_id'],
                 "accepted" => $x['accepted'],
                 "name" => $friend_name,
+                "from_auth" => Auth::id() === $x['asking_user']
             ];
         }, $friendships);
         return $friendships;

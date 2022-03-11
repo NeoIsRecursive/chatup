@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Friendship;
 use App\Http\Controllers\Controller;
 use App\Models\Friendship;
 use App\Models\User;
+use Crypt;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,12 +30,27 @@ class AddFriendController extends Controller
             return back()->withErrors('That user doesnt exist exist');
         }
 
-        Friendship::create([
-            'first_user' => Auth::id(),
-            'second_user' => $second_user->id,
-            'asking_user' => Auth::id(),
-        ]);
+        $data = Friendship::select('id')
+            ->where(function ($query) use ($second_user) {
+                $query->where('first_user', Auth::id());
+                $query->where('second_user', $second_user->id);
+            })
+            ->orWhere(function ($query) use ($second_user) {
+                $query->where('first_user', $second_user->id);
+                $query->where('second_user', Auth::id());
+            })
+            ->get();
 
-        return back();
+        if ($data->isEmpty()) {
+            Friendship::create([
+                'first_user' => Auth::id(),
+                'second_user' => $second_user->id,
+                'asking_user' => Auth::id(),
+            ]);
+            return back();
+        }
+
+
+        return back()->withErrors('There already exists a pending request');
     }
 }

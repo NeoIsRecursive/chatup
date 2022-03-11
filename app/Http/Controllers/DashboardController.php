@@ -17,8 +17,9 @@ class DashboardController extends Controller
     {
         //
         $friends = Auth::user()->friendships();
-
-        // dd($friends);
+        usort($friends, function ($a, $b) {
+            return $b['accepted'] <=> $a['accepted'];
+        });
 
         return view('dashboard')->with('friends', $friends);
     }

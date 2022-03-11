@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('first_user');
             $table->integer('second_user');
             $table->integer('asking_user');
-            $table->boolean('accepted')->default(true); //change to false later
+            $table->boolean('accepted')->default(false);
             $table->timestamps();
         });
     }

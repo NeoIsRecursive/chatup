@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Friendship\AcceptFriendController;
 use App\Http\Controllers\Friendship\AddFriendController;
+use App\Http\Controllers\Friendship\DeclineFriendController;
 use App\Http\Controllers\Messages\NewMessageController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('add_friend', AddFriendController::class);
     Route::get('chat/{friendship}', ChatController::class);
     Route::post('chat/{friendship}', NewMessageController::class);
+    Route::patch('accept_friend/{friendship}', AcceptFriendController::class);
+    Route::delete('decline_friend/{friendship}', DeclineFriendController::class);
 });
 
 Route::group(['middleware' => ['guest']], function () {
