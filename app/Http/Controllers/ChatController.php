@@ -22,11 +22,11 @@ class ChatController extends Controller
             return back()->withErrors("not your channel");
         }
 
-        $otheruser = User::find(Auth::id() !== $friendship->first_user ? $friendship->first_user : $friendship->secpnd_user);
+        $otheruser = User::find(Auth::id() !== $friendship->first_user ? $friendship->first_user : $friendship->second_user);
 
         $messages = $friendship->messages;
 
-        $messages->getCollection()->reverse()->map(function ($x) use ($otheruser) {
+        $messages->map(function ($x) use ($otheruser) {
             $x->user_name = Auth::id() == $x->user_id ? Auth::user()->name : $otheruser->name;
             $x->content = Crypt::decryptString($x->content);
             return $x;
