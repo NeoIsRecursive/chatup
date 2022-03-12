@@ -31,6 +31,6 @@
         </li>
         @endforeach
     </ul>
-    @include('components.add_friend')
+    @include('components.friends.add')
 </fieldset>
 </div>
