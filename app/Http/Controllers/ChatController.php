@@ -18,8 +18,12 @@ class ChatController extends Controller
      */
     public function __invoke(Friendship $friendship, Request $request)
     {
-        if (Auth::id() !== $friendship->first_user  && Auth::id() !== $friendship->second_user) {
+        if ((Auth::id() !== $friendship->first_user  && Auth::id() !== $friendship->second_user)) {
             return back()->withErrors("not your channel");
+        }
+
+        if (!$friendship->accepted) {
+            return back()->withErrors('not accepted yet');
         }
 
         $otheruser = User::find(Auth::id() !== $friendship->first_user ? $friendship->first_user : $friendship->second_user);
