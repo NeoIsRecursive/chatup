@@ -16,10 +16,30 @@ class DashboardController extends Controller
     public function __invoke()
     {
         //
-        $friends = Auth::user()->friendships();
-        usort($friends, function ($a, $b) {
-            return $b['accepted'] <=> $a['accepted'];
+        // dd(Auth::user()->friendships);
+
+        $friends = Auth::user()->friendships()
+            ->join('users as second', 'second.id', '=', 'friendships.second_user')
+            ->join('users as first', 'first.id', '=', 'friendships.first_user')
+            ->select([
+                'friendships.id as id',
+                'first.name as first_name',
+                'second.name as second_name',
+                'accepted',
+                'asking_user'
+            ])
+            ->simplePaginate(10);
+
+        $friends->map(function ($x) {
+            $friend_name = Auth::user()->name === $x['second_name'] ? $x['first_name'] : $x['second_name'];
+            $x->name = $friend_name;
+            return $x;
+        })->sort(function ($a, $b) {
+            return $b->accepted <=> $a->accepted;
         });
+        // usort($friends, function ($a, $b) {
+        //     return $b['accepted'] <=> $a['accepted'];
+        // });
 
         return view('dashboard')->with('friends', $friends);
     }
