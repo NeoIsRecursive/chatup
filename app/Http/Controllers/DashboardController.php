@@ -32,6 +32,7 @@ class DashboardController extends Controller
 
         $friends->map(function ($x) {
             $friend_name = Auth::user()->name === $x['second_name'] ? $x['first_name'] : $x['second_name'];
+            $x->from_auth = Auth::id() === $x->asking_user;
             $x->name = $friend_name;
             return $x;
         })->sort(function ($a, $b) {
