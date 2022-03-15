@@ -19,7 +19,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('test.{friendshipId}', function ($user, $friendshipId) {
+Broadcast::channel('chat.{friendshipId}', function ($user, $friendshipId) {
     $friendship = Friendship::find($friendshipId);
 
     return $user->id === $friendship->first_user  || $user->id === $friendship->second_user;

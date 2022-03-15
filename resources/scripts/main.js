@@ -3,6 +3,7 @@ import pusherJs from "pusher-js";
 import newMessage from "./newMessage.js";
 import succesfullySent from "./succesfullySent.js";
 
+// console.log(import.meta.env.PUSHER_APP_KEY);
 window.Pusher = pusherJs;
 
 window.echo = new Echo({
@@ -15,7 +16,7 @@ window.echo = new Echo({
 });
 
 window.echo
-    .private("test." + window.location.pathname.match(/([0-9])/)[0])
+    .private("chat." + window.location.pathname.match(/([0-9])+/)[0])
     .listen("TestMessage", (e) => {
         newMessage(e);
     });

@@ -39,7 +39,7 @@ class TestMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('test.' . $this->message->friendship_id);
+        return new PrivateChannel('chat.' . $this->message->friendship_id);
     }
 
     public function broadcastWith()
