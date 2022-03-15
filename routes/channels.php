@@ -22,5 +22,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('chat.{friendshipId}', function ($user, $friendshipId) {
     $friendship = Friendship::find($friendshipId);
 
-    return $user->id === $friendship->first_user  || $user->id === $friendship->second_user;
+    if ($user->id === $friendship->first_user  || $user->id === $friendship->second_user) {
+        return $user;
+    }
+
+    return false;
 });

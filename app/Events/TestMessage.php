@@ -7,6 +7,7 @@ use App\Models\User;
 use Crypt;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -36,7 +37,7 @@ class TestMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.' . $this->message->friendship_id);
+        return new PresenceChannel('chat.' . $this->message->friendship_id);
     }
 
     public function broadcastWith()

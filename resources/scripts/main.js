@@ -16,8 +16,32 @@ window.echo = new Echo({
     wsPort: 6001,
 });
 
+// window.echo
+//     .private("chat." + window.location.pathname.match(/([0-9])+/)[0])
+//     .listen("TestMessage", (e) => {
+//         newMessage(e);
+//     });
+
+let onlineUsers = 0;
+
+function update_online_counter() {
+    document.getElementById("online").textContent = "" + onlineUsers;
+}
+
 window.echo
-    .private("chat." + window.location.pathname.match(/([0-9])+/)[0])
+    .join("chat." + window.location.pathname.match(/([0-9])+/)[0])
+    .here((x) => {
+        onlineUsers = x.length;
+        update_online_counter();
+    })
+    .joining((x) => {
+        onlineUsers++;
+        update_online_counter();
+    })
+    .leaving((x) => {
+        onlineUsers--;
+        update_online_counter();
+    })
     .listen("TestMessage", (e) => {
         newMessage(e);
     });
