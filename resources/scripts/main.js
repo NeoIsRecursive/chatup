@@ -3,13 +3,14 @@ import pusherJs from "pusher-js";
 import newMessage from "./newMessage.js";
 import succesfullySent from "./succesfullySent.js";
 
-// console.log(import.meta.env.PUSHER_APP_KEY);
+const { VITE_PUSHER_APP_KEY: KEY, VITE_PUSHER_APP_CLUSTER: CLUSTER } =
+    import.meta.env;
 window.Pusher = pusherJs;
 
 window.echo = new Echo({
     broadcaster: "pusher",
-    key: 1234,
-    cluster: "mt1",
+    key: KEY,
+    cluster: CLUSTER,
     forceTLS: false,
     wsHost: window.location.hostname,
     wsPort: 6001,
